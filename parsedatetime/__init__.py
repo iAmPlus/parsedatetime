@@ -352,7 +352,7 @@ class Calendar(object):
         else:
             quantity = quantity.strip()
 
-        qty = self._quantityToReal(quantity)
+        qty = self.word_to_num(quantity)
 
         if modifier in self.ptc.Modifiers:
             qty = qty * self.ptc.Modifiers[modifier]
@@ -496,6 +496,7 @@ class Calendar(object):
         @rtype:  struct_time
         @return: calculated C{struct_time} value of dateString
         """
+
         if sourceTime is None:
             yr, mth, dy, hr, mn, sec, wd, yd, isdst = time.localtime()
         else:
@@ -965,7 +966,7 @@ class Calendar(object):
 
         return diff
 
-    def _quantityToReal(self, quantity):
+    '''def _quantityToReal(self, quantity):
         """
         Convert a quantity, either spelled-out or numeric, to a float
 
@@ -987,7 +988,7 @@ class Calendar(object):
         except KeyError:
             pass
 
-        return 0.0
+        return 0.0'''
 
     def number_formation(self, number_words):
         numbers = []
@@ -1009,9 +1010,12 @@ class Calendar(object):
             return numbers[0]
 
     def word_to_num(self, number_sentence):
-        '''if type(number_sentence) is not str:
-            raise ValueError(
-                "Type of input is not string! Please enter a valid number word (eg. \'two million twenty three thousand and forty nine\')")'''
+        if not number_sentence:
+            return 1.0
+        try:
+            return float(number_sentence.replace(',', '.'))
+        except ValueError:
+            pass
 
         number_sentence = number_sentence.replace('-', ' ')
         number_sentence = number_sentence.lower()  # converting input to lowercase
@@ -1019,7 +1023,7 @@ class Calendar(object):
             number_sentence = number_sentence.replace(' '+self.ptc.numbers['ignore']+ ' ', ' ')
 
         if (number_sentence.isdigit()):  # return the number if user enters a number string
-            return int(number_sentence)
+            return float(number_sentence)
 
         clean_numbers = []
         clean_decimal_numbers = []
@@ -1103,7 +1107,29 @@ class Calendar(object):
             decimal_sum = get_decimal_sum(clean_decimal_numbers)
             total_sum += decimal_sum
 
-        return total_sum
+        return float(total_sum)
+
+    def replaceNumber(self, parseStr):
+        chunk1 = chunk2 = num = ''
+        strWords = parseStr.split()
+        flag = 0
+        for i in strWords:
+            m = self.ptc.CRE_NUM.search(i)
+            if i.replace(',', '').isdigit():
+                i = i.replace(',', '.')
+            if m is not None:
+                flag = 1
+                num = num + i + ' '
+            elif flag == 1:
+                chunk2 = chunk2 + ' ' + i
+            elif flag == 0:
+                chunk1 = chunk1 + ' ' + i
+        if flag:
+            num = num.strip()
+            number = self.word_to_num(num)
+            return (chunk1.strip() + ' ' + str(int(number)) + ' ' + chunk2.strip()).strip()
+        else:
+            return chunk1
 
     def _evalModifier(self, modifier, chunk1, chunk2, sourceTime):
         """
@@ -1360,7 +1386,7 @@ class Calendar(object):
                 else:
                     qty = None
                     debug and log.debug('CRE_NUMBER matched')
-                    qty = self._quantityToReal(m.group()) * offset
+                    qty = self.word_to_num(m.group()) * offset
                     chunk1 = '%s%s%s' % (chunk1[:m.start()],
                                          qty, chunk1[m.end():])
 
@@ -1409,6 +1435,7 @@ class Calendar(object):
         """
         ctx = self.currentContext
         s = datetimeString.strip()
+        #s = self.replaceNumber(s)
 
         # Given string date is a RFC822 date
         if sourceTime is None:
@@ -2891,7 +2918,7 @@ class Constants(object):
                                             )\b
                                             |
                                             (?:^|\s+)
-                                            (?P<day>[1-9]|[012]\d|3[01])
+                                            (?P<day>[1-9]|[012]\d|3[01]|{numbers})
                                             (?P<suffix>{daysuffix}|)\b
                                             (?!\s*(?:{timecomponents}))
                                             |
@@ -3047,16 +3074,13 @@ class Constants(object):
         self.RE_RDATE = r'(\d+([%s]\d+)+)' % dateSeps
 
         # 'month day year' 'july 6th 2017'
-        self.RE_RDATE = r'(\d+([%s]\d+)+)' % dateSeps
-
-        # month day year
         self.RE_RDATE3 = r'''(
                                         (
                                             (
                                                 \b({months}|{shortmonths})\b
                                             )\s*
                                             (
-                                                (\d\d?)
+                                                (\d\d?|{numbers})
                                                 (\s|{daysuffix})?
                                             )?
                                             (,?\s*\d{{4}})?
@@ -3067,7 +3091,7 @@ class Constants(object):
         self.RE_RDATE4 = r'''(
                                                 (
                                                     (
-                                                        (\d\d?)
+                                                        (\d\d?|{numbers})
                                                         ({daysuffix})?
                                                         (,)?\s*
                                                         ({of})?

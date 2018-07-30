@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import collections
 
 locale_keys = set([
     'MonthOffsets', 'Months', 'WeekdayOffsets', 'Weekdays',
@@ -56,39 +57,40 @@ timeFormats = {
 dp_order = ['m', 'd', 'y']
 
 # Used to parse expressions like "in 5 hours"
-numbers = {
-    'sixteen': 16,
-    'seventeen': 17,
-    'eighteen': 18,
-    'nineteen': 19,
-    'zero': 0,
-    'one': 1,
-    'a': 1,
-    'an': 1,
-    'two': 2,
-    'three': 3,
-    'four': 4,
-    'five': 5,
-    'six': 6,
-    'seven': 7,
-    'eight': 8,
-    'nine': 9,
-    'ten': 10,
-    'eleven': 11,
-    'thirteen': 13,
-    'fourteen': 14,
-    'fifteen': 15,
-    'twenty': 20,
-    'thirty':30,
-    'forty':40,
-    'fifty':50,
-    'sixty':60,
-    'seventy':70,
-    'eighty':80,
-    'ninety':90,
-    'hundred':100,
-    'ignore': 'and',
-}
+numbers = collections.OrderedDict([
+    ('sixty',  60),
+    ('seventy',  70),
+    ('eighty',  80),
+    ('ninety',  90),
+    ('fourteen',  14),
+    ('sixteen',  16),
+    ('seventeen',  17),
+    ('eighteen',  18),
+    ('nineteen',  19),
+    ('zero',  0),
+    ('one',  1),
+    ('a',  1),
+    ('an',  1),
+    ('two',  2),
+    ('three',  3),
+    ('four',  4),
+    ('five',  5),
+    ('six',  6),
+    ('seven',  7),
+    ('eight',  8),
+    ('nine',  9),
+    ('ten',  10),
+    ('eleven',  11),
+    ('thirteen',  13),
+    ('fifteen',  15),
+    ('twenty',  20),
+    ('thirty',  30),
+    ('forty',  40),
+    ('fifty',  50),
+    ('hundred',  100),
+    ('ignore',  'and'),
+])
+number = collections.OrderedDict(numbers)
 
 decimal_mark = '.'
 

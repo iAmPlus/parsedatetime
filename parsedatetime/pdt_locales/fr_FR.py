@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import collections
 from .base import *  # noqa
 
 # don't use an unicode string
@@ -52,36 +53,38 @@ timeFormats = {
 dp_order = ['d', 'm', 'y']
 
 # Used to parse expressions like "in 5 hours"
-numbers = {
-    'soixante dix': 70,
-    'quatre vingts': 80,
-    'quatre vingt': 80,
-    'quatre vingt dix': 90,
-    'zero': 0,
-    'un': 1,
-    'une': 1,
-    'deux': 2,
-    'trois': 3,
-    'quatre': 4,
-    'cinq': 5,
-    'six': 6,
-    'sept': 7,
-    'huit': 8,
-    'neuf': 9,
-    'dix': 10,
-    'onze': 11,
-    'douze': 12,
-    'treize': 13,
-    'quatorze': 14,
-    'quinze': 15,
-    'seize': 16,
-    'vingt': 20,
-    'trente': 30,
-    'quarante': 40,
-    'cinquante': 50,
-    'soixante': 60,
-    'cent': 100,
-}
+numbers = collections.OrderedDict([
+    ('cinquante', 50),
+    ('soixante dix', 70),
+    ('quatre vingt dix', 90),
+    ('quatre vingts', 80),
+    ('quatre vingt', 80),
+    ('zéro', 0),
+    ('zero', 0),
+    ('un', 1),
+    ('une', 1),
+    ('deux', 2),
+    ('trois', 3),
+    ('quatre', 4),
+    ('cinq', 5),
+    ('six', 6),
+    ('sept ', 7),
+    ('huit', 8),
+    ('neuf', 9),
+    ('dix', 10),
+    ('onze', 11),
+    ('douze', 12),
+    ('treize', 13),
+    ('quatorze', 14),
+    ('quinze', 15),
+    ('seize', 16),
+    ('vingt', 20),
+    ('trente', 30),
+    ('quarante', 40),
+    ('soixante', 60),
+    ('cent', 100),
+])
+print numbers
 
 decimal_mark = ','
 

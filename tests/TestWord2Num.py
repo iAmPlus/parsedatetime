@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Test parsing of simple date and times using the Spanish locale
+Test parsing of numbers written out in German, French, English and Spanish
 """
 from __future__ import unicode_literals
 
@@ -44,6 +44,10 @@ class test(unittest.TestCase):
             self.cal.word_to_num('seven'), 7)
         self.assertExpectedResult(
             self.cal.word_to_num('hundred and one'), 101)
+        self.assertExpectedResult(
+            self.cal.word_to_num('eighty five'), 85)
+        self.assertExpectedResult(
+            self.cal.word_to_num('sixty seven'), 67)
 
     def testFrenchNums(self):
         self.ptc = pdt.Constants('fr_FR', usePyICU=False)
@@ -79,9 +83,9 @@ class test(unittest.TestCase):
         self.assertExpectedResult(
             self.cal.word_to_num('soixante dix'), 70)
         self.assertExpectedResult(
+            self.cal.word_to_num('soixante dix huit'), 78)
+        self.assertExpectedResult(
             self.cal.word_to_num('quatre vingt dix'), 90)
-
-        # NOTE TO SELF: quatre vingt, quatre vingt huit, quatre vingt seize, soixante dix huit, quatre vingt dix
 
     def testSpanishNums(self):
         self.ptc = pdt.Constants('es', usePyICU=False)
