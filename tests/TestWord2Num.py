@@ -48,6 +48,8 @@ class test(unittest.TestCase):
             self.cal.word_to_num('eighty five'), 85)
         self.assertExpectedResult(
             self.cal.word_to_num('sixty seven'), 67)
+        self.assertExpectedResult(
+            self.cal.word_to_num('in a week'), 1)
 
     def testFrenchNums(self):
         self.ptc = pdt.Constants('fr_FR', usePyICU=False)

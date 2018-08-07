@@ -9,7 +9,6 @@ import sys
 import time
 import datetime
 import parsedatetime as pdt
-from parsedatetime.pdt_locales import get_icu
 from . import utils
 
 if sys.version_info < (2, 7):
@@ -120,7 +119,6 @@ class test(unittest.TestCase):
 
         for i in range(0, 7):
             dow = self.ptc.shortWeekdays[i]
-            #print(dow)
 
             result = self.cal.parse(dow, start)
 
@@ -182,7 +180,7 @@ class test(unittest.TestCase):
             self.cal.evalRanges("5 jours d'hier", start),
             (targetStart, targetEnd, 1))
 
-        '''targetStart = datetime.datetime(
+        targetStart = datetime.datetime(
             self.yr, self.mth, self.dy, self.hr, self.mn, self.sec)
         targetStart = targetStart.timetuple()
         targetEnd = datetime.datetime(
@@ -190,7 +188,7 @@ class test(unittest.TestCase):
         targetEnd = targetEnd.timetuple()
         self.assertExpectedResult(
             self.cal.evalRanges("5 prochains jours", start),
-            (targetStart, targetEnd, 1))'''
+            (targetStart, targetEnd, 1))
 
         targetStart = datetime.datetime(
             self.yr + 1, 1, 1, 9, 0, 0)

@@ -20,7 +20,7 @@ class test(unittest.TestCase):
 
     @utils.assertEqualWithComparator
     def assertExpectedResult(self, result, check, **kwargs):
-        return result == check
+        return utils.compareResultByTimeTuplesAndFlags(result, check, **kwargs)
 
     def setUp(self):
         self.cal = pdt.Calendar()
@@ -31,14 +31,18 @@ class test(unittest.TestCase):
         start = datetime.datetime(
             self.yr, self.mth, self.dy, self.hr, self.mn, self.sec).timetuple()
 
+        target = datetime.datetime(
+            self.yr, 9, 25, self.hr, self.mn, self.sec).timetuple()
         self.assertExpectedResult(
-            self.cal.replaceNumber('twenty five september 2006'), ('25 september 2006'))
+            self.cal.parse('twenty five september', start), (target, 1))
+
+        target = datetime.datetime(
+            self.yr, self.mth, self.dy, self.hr, self.mn, self.sec) + datetime.timedelta(days=5)
+        target = target.timetuple()
         self.assertExpectedResult(
-            self.cal.replaceNumber('twenty five august 2006'), ('25 august 2006'))
+            self.cal.parse('five days later', start), (target, 1))
         self.assertExpectedResult(
-            self.cal.replaceNumber('in a week'), ('in 1 week'))
-        self.assertExpectedResult(
-           self.cal.replaceNumber('august 22nd 3:26am'), ('august 22nd 3:26am'))
+            self.cal.parse('next five days', start), (target, 1))
 
     def testFrenchNums(self):
         self.ptc = pdt.Constants('fr_FR', usePyICU=False)
@@ -54,15 +58,16 @@ class test(unittest.TestCase):
         start = datetime.datetime(
             self.yr, self.mth, self.dy, self.hr, self.mn, self.sec).timetuple()
 
-        self.assertExpectedResult(
-            self.cal.replaceNumber('vingt cinq septembre 2006'), ('25 septembre 2006'))
-        self.assertExpectedResult(
-            self.cal.replaceNumber('dix sept septembre 2006'), ('17 septembre 2006'))
-
         target = datetime.datetime(
             self.yr, 9, 25, self.hr, self.mn, self.sec).timetuple()
-        '''self.assertExpectedResult(
-            self.cal.parse('vingt cinq septembre', start), (target, 1))'''
+        self.assertExpectedResult(
+            self.cal.parse('vingt cinq septembre', start), (target, 1))
+
+        target = datetime.datetime(
+            self.yr, self.mth, self.dy, self.hr, self.mn, self.sec) + datetime.timedelta(days=5)
+        target = target.timetuple()
+        self.assertExpectedResult(
+            self.cal.parse('apres cinq jours', start), (target, 1))
 
     def testSpanishNums(self):
         self.ptc = pdt.Constants('es', usePyICU=False)
@@ -75,8 +80,14 @@ class test(unittest.TestCase):
             raise unittest.SkipTest(
                 'Locale not set to es - check if PyICU is installed')
 
+        start = datetime.datetime(
+            self.yr, self.mth, self.dy, self.hr, self.mn, self.sec).timetuple()
+
+        target = datetime.datetime(
+            self.yr, 9, 25, self.hr, self.mn, self.sec).timetuple()
         self.assertExpectedResult(
-            self.cal.replaceNumber('veinticinco septiembre 2006'), ('25 septiembre 2006'))
+            self.cal.parse('veinticinco de septiembre', start), (target, 1))
+
 
     def testGermanNums(self):
         self.ptc = pdt.Constants('de_DE', usePyICU=False)
@@ -89,8 +100,15 @@ class test(unittest.TestCase):
             raise unittest.SkipTest(
                 'Locale not set to de_DE - check if PyICU is installed')
 
+        start = datetime.datetime(
+            self.yr, self.mth, self.dy, self.hr, self.mn, self.sec).timetuple()
+
+        target = datetime.datetime(
+            self.yr, 9, 25, self.hr, self.mn, self.sec).timetuple()
         self.assertExpectedResult(
-            self.cal.replaceNumber('funfundzwanzig september 2006'), ('25 september 2006'))
+            self.cal.parse('fünfundzwanzig September', start), (target, 1))
+
+
 
 if __name__ == "__main__":
     unittest.main()

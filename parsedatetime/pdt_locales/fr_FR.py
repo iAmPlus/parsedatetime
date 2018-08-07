@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import collections
 from .base import *  # noqa
 
 # don't use an unicode string
@@ -68,7 +67,7 @@ numbers = collections.OrderedDict([
     ('quatre', 4),
     ('cinq', 5),
     ('six', 6),
-    ('sept ', 7),
+    ('sept', 7),
     ('huit', 8),
     ('neuf', 9),
     ('dix', 10),
@@ -84,7 +83,6 @@ numbers = collections.OrderedDict([
     ('soixante', 60),
     ('cent', 100),
 ])
-print numbers
 
 decimal_mark = ','
 
@@ -93,7 +91,7 @@ units = {
     'seconds': ['seconde', 'secondes', 'sec', 's'],
     'minutes': ['minute', 'minutes', 'min', 'mn'],
     'hours': ['heure', 'heures', 'h'],
-    'days': ['jour', 'jours', 'journée', 'journee', 'journées', 'journees', 'j'],
+    'days': ['jours', 'jour', 'journée', 'journee', 'journées', 'journees', 'j'],
     'weeks': ['semaine', 'semaines', 'sem'],
     'months': ['mois', 'm'],
     'years': ['année', 'l\'année', 'annee', 'l\'annee', 'an', 'années', 'annees', 'ans'],
@@ -109,13 +107,12 @@ re_values = {
     'meridian': None,
     'qunits': 'h|m|s|j|sem|a',
     'now': ['maintenant', 'tout de suite', 'immédiatement', 'immediatement', 'à l\'instant', 'a l\'instant'],
-    'after': 'après|apres|il\sy\sa', # imply after/later/ago but at the beginning of a phrase
-    'ago': r'plus\stard', # imply after/later/ago but at the end of a phrase
-    'from' : r'à\spartir|a\spartir|à\spartir\sde|a\spartir\sde|à\spartir\sd\'|a\spartir\sd\'|de|d\'', # num unit from rel
+    'after': r'après|apres|il\sy\sa|plus\stard',
+    'from': r'à\spartir|a\spartir|à\spartir\sde|a\spartir\sde|à\spartir\sd\'|a\spartir\sd\'|de|d\'', # num unit from rel
     'this': 'ce|cette',
     'next': 'prochaine|prochain|prochains|prochaines',
-    'last':'dernière|derniere|dernier|dernières|dernieres|derniers',
-    'in': r'dans', # "in 5 days"
+    'last': 'dernière|derniere|dernier|dernières|dernieres|derniers',
+    'in': 'dans', # "in 5 days"
     'since': 'depuis', # since time, since date, since num unit
 }
 
@@ -127,21 +124,32 @@ Modifiers = {
     'plus tôt': -1,
     'y a': -1,
     'antérieur': -1,
+    'antérieurs': -1,
     'anterieur': -1,
+    'anterieurs': -1,
     'dernier': -1,
+    'derniers': -1,
     'dernière': -1,
+    'dernières': -1,
     'derniere': -1,
+    'dernieres': -1,
     'précédent': -1,
     'précedent': -1,
     'precédent': -1,
     'precedent': -1,
+    'précédents': -1,
+    'précedents': -1,
+    'precédents': -1,
+    'precedents': -1,
     'fin de': 0,
     'fin du': 0,
     'fin de la': 0,
     'fin des': 0,
     'fin d\'': 0,
     'ce': 0,
+    'ces': 0,
     'cette': 0,
+    'cettes': 0,
     'depuis': 1,
     'dans': 1,
     'à partir': 1,
@@ -150,7 +158,9 @@ Modifiers = {
     'apres': 1,
     'lendemain': 1,
     'prochain': 1,
+    'prochains': 1,
     'prochaine': 1,
+    'prochaines': 1,
     'suivant': 1,
     'suivante': 1,
     'plus tard': 1

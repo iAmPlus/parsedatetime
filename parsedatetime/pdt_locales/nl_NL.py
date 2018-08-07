@@ -64,7 +64,6 @@ re_values.update({
     'qunits': 'h|m|s|d|w|m|j',
     'now': ['nu'],
     'after': 'after', # imply after/later/ago but at the beginning of a phrase
-    'ago': 'ago|later', # imply after/later/ago but at the end of a phrase
     'from': 'from',  # num unit from rel
     'this': 'this',
     'next': 'next|coming',

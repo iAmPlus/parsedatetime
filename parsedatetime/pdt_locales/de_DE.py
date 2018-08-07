@@ -95,8 +95,7 @@ re_values.update({
     'daysuffix': '',
     'qunits': 'h|m|s|t|w|m|j',
     'now': ['jetzt'],
-    'after': 'nach|vor', # imply after/later/ago but at the beginning of a phrase
-    'ago': 'später|spater', # imply after/later/ago but at the end of a phrase
+    'after': 'nach|vor|später|spater',
     'from': 'von',  # num unit from rel
     'this': 'deises|diesen|kommenden',
     'next': 'nächsten|nächster|nächste|nachsten|nachster|nachste',
@@ -120,6 +119,7 @@ Modifiers = {
     'vorheriger': -1,
 
     'prev': -1,
+    'seit': -1,
 
     'letzter': -1,
     'letzten': -1,

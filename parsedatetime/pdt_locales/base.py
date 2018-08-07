@@ -69,8 +69,8 @@ numbers = collections.OrderedDict([
     ('nineteen',  19),
     ('zero',  0),
     ('one',  1),
-    ('a',  1),
-    ('an',  1),
+    ('an ', 1),
+    ('a ',  1),
     ('two',  2),
     ('three',  3),
     ('four',  4),
@@ -117,8 +117,7 @@ re_values = {
     'meridian': r'am|pm|a\.m\.|p\.m\.|a|p',
     'qunits': 'h|m|s|d|w|y',
     'now': ['now', 'right now'],
-    'after': 'after|before',  # imply after/later/ago but at the beginning of a phrase
-    'ago': 'ago|later',  # imply after/later/ago but at the end of a phrase
+    'after': 'after|before|ago|later',
     'from': 'from',  # num unit from rel
     'this': 'this',
     'next': 'next|coming',

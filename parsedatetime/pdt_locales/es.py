@@ -9,6 +9,9 @@ meridian = []
 usesMeridian = False
 uses24 = True
 decimal_mark = ','
+timeSep = [':', 'h']
+WeekdayOffsets = {}
+MonthOffsets = {}
 
 Weekdays = [
     'lunes', 'martes', 'miércoles',
@@ -86,17 +89,16 @@ numbers = {
     'novecientos': 900,
 }
 
-decimal_mark = ','
 
 # this will be added to re_values later
 units = {
     'seconds': ['segundo', 'seguendos', 's'],
     'minutes': ['minuto', 'minutos', 'min'],
-    'hours': ['hora', ' horas','h'],
+    'hours': ['horas', ' hora', 'h'],
     'days': ['día', 'días', 'dia', 'dias', 'd'],
     'weeks': ['semana', 'semanas'],
     'months': ['mes'],
-    'years': ['año', 'ano'],
+    'years': ['año', 'años', 'ano', 'anos'],
 }
 
 # text constants to be used by later regular expressions
@@ -109,9 +111,8 @@ re_values = {
     'meridian': r'am|pm|a\.m\.|p\.m\.|a|p',
     'qunits': 'h|s|d',
     'now': ['ahora', 'ahora mismo', 'inmediatamente'],
-    'after': r'después\sde|despues\sde|hace|después|despues', # imply after/later/ago but at the beginning of a phrase
-    'ago': 'después|despues', # imply after/later/ago but at the end of a phrase
-    'from' : r'a\spartir\sde|de|desde\sel|desde|antes|antes\sde', # num unit from rel
+    'after': r'después\sde|despues\sde|hace|después|despues',
+    'from' : r'a\spartir\sde|', # num unit from rel
     'this': 'este|esta|esto|viene|venidera|venidero|venideras|venideros|viniendo',
     'next': 'próximo|próximos|proximo|proximos|próxima|próximas|proxima|proximas|siguiente|siguientes',
     'last':'pasado|pasados|pasada|pasadas',
@@ -126,7 +127,10 @@ Modifiers = {
     'anterior': -1,
     'después de': 1,
     'despues de': 1,
-    'hace':-1,
+    'después': 1,
+    'despues': 1,
+    'hace': -1,
+    'tarde': -1,
     'previo': -1,
     'desde': -1,
     'desde el': -1,
@@ -137,7 +141,7 @@ Modifiers = {
     'ultimo': -1,
     'pasado': -1,
     'pasados': -1,
-    'pasada':-1,
+    'pasada': -1,
     'pasadas': -1,
     'fin de': 0,
     'esta': 0,
@@ -154,7 +158,7 @@ Modifiers = {
     'siguiente': 1,
     'eod': 1,
     'fin del día': 1,
-    'fin del dia'
+    'fin del dia': 1,
     'eom': 1,
     'fin de mes': 1,
     'eoy': 1,
