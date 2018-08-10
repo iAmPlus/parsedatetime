@@ -876,30 +876,8 @@ class Calendar(object):
 
         return diff
 
-    '''def _quantityToReal(self, quantity):
-        """
-        Convert a quantity, either spelled-out or numeric, to a float
-
-        @type    quantity: string
-        @param   quantity: quantity to parse to float
-        @rtype:  int
-        @return: the quantity as an float, defaulting to 0.0
-        """
-        if not quantity:
-            return 1.0
-
-        try:
-            return float(quantity.replace(',', '.'))
-        except ValueError:
-            pass
-
-        try:
-            return float(self.ptc.numbers[quantity])
-        except KeyError:
-            pass
-
-        return 0.0'''
-
+    # word_to_num function calls this function after finding the clean_numbers in the string
+    # this function creates the float value from those clean_numbers
     def number_formation(self, number_words):
         numbers = []
         for number_word in number_words:
@@ -948,17 +926,16 @@ class Calendar(object):
         if m is not None:
             str = str.replace(m.group(), ' ')
         str = ' '+ str + ' '
-        while 1:
+
+        i = 0
+        while i<4:
             m = self.ptc.CRE_NUM.search(str)
             if m is not None:
                 clean_numbers.append(m.group())
                 str = str[m.end():].strip()
+                i = i + 1
             else:
                 break
-
-        # Error message if the user enters invalid input!
-        if len(clean_numbers) == 0:
-            raise ValueError("No valid number words found! Please enter a valid number word (eg. two million twenty three thousand and forty nine)")
 
         # Error if user enters million,billion, thousand or decimal point twice
         if clean_numbers.count('thousand') > 1 or clean_numbers.count('million') > 1 or clean_numbers.count(
@@ -1051,11 +1028,11 @@ class Calendar(object):
             else:
                 return parseStr
         elif tense == -1:
-            return self.addContext(parseStr, tense)
+            return self.addTense(parseStr, tense)
         else:
             return parseStr
 
-    def addContext(self, parseStr, tense):
+    def addTense(self, parseStr, tense):
         m = re.search(r'\d\d?(.|,)?\d?\d?', parseStr)
         return parseStr[:m.start()].strip() + ' ' + str(float(m.group()) * tense) + ' '+ parseStr[m.end():].strip()
 
