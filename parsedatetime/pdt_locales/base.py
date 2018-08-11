@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import collections
 
 locale_keys = set([
     'MonthOffsets', 'Months', 'WeekdayOffsets', 'Weekdays',
@@ -56,30 +57,40 @@ timeFormats = {
 dp_order = ['m', 'd', 'y']
 
 # Used to parse expressions like "in 5 hours"
-numbers = {
-    'zero': 0,
-    'one': 1,
-    'a': 1,
-    'an': 1,
-    'two': 2,
-    'three': 3,
-    'four': 4,
-    'five': 5,
-    'six': 6,
-    'seven': 7,
-    'eight': 8,
-    'nine': 9,
-    'ten': 10,
-    'eleven': 11,
-    'thirteen': 13,
-    'fourteen': 14,
-    'fifteen': 15,
-    'sixteen': 16,
-    'seventeen': 17,
-    'eighteen': 18,
-    'nineteen': 19,
-    'twenty': 20,
-}
+numbers = collections.OrderedDict([
+    ('sixty',  60),
+    ('seventy',  70),
+    ('eighty',  80),
+    ('ninety',  90),
+    ('fourteen',  14),
+    ('sixteen',  16),
+    ('seventeen',  17),
+    ('eighteen',  18),
+    ('nineteen',  19),
+    ('zero',  0),
+    ('one',  1),
+    ('an ', 1),
+    ('a ',  1),
+    ('two',  2),
+    ('three',  3),
+    ('four',  4),
+    ('five',  5),
+    ('six',  6),
+    ('seven',  7),
+    ('eight',  8),
+    ('nine',  9),
+    ('ten',  10),
+    ('eleven',  11),
+    ('thirteen',  13),
+    ('fifteen',  15),
+    ('twenty',  20),
+    ('thirty',  30),
+    ('forty',  40),
+    ('fifty',  50),
+    ('hundred',  100),
+    ('ignore',  'and'),
+])
+number = collections.OrderedDict(numbers)
 
 decimal_mark = '.'
 
@@ -100,17 +111,19 @@ units = {
 re_values = {
     'specials': 'in|on|of|at',
     'timeseparator': ':',
+    'of': 'of', # "eg. 3rd of march"
     'rangeseparator': r'-|to |til|until',
     'daysuffix': 'rd|st|nd|th',
     'meridian': r'am|pm|a\.m\.|p\.m\.|a|p',
     'qunits': 'h|m|s|d|w|y',
     'now': ['now', 'right now'],
-    'after': 'after',
-    'from' : 'from',
-    'this': r'this|coming|this\scoming',
-    'next': 'next',
-    'in': r'for\sthe\snext|the\snext|next|in|in\sthe\s\next|in\snext',
-    'since' : 'since',
+    'after': 'after|before|ago|later',
+    'from': 'from',  # num unit from rel
+    'this': 'this',
+    'next': 'next|coming',
+    'last': 'last|previous',
+    'in': r'in',  # "in 5 days"
+    'since': 'since',  # since time, since date, since num unit
 
 }
 
@@ -118,19 +131,29 @@ re_values = {
 Modifiers = {
     'from': 1,
     'before': -1,
+    'earlier': -1,
     'after': 1,
     'ago': -1,
     'prior': -1,
+    'since': -1,
     'prev': -1,
     'last': -1,
-    'next': 1,
     'previous': -1,
     'end of': 0,
     'this': 0,
-    'coming':0,
+    'coming': 0,
+    'upcoming': 1,
+    'later': 1,
+    'next': 1,
     'eod': 1,
+    'end of day': 1,
+    'end of the day': 1,
     'eom': 1,
+    'end of month': 1,
+    'end of the month': 1,
     'eoy': 1,
+    'end of year': 1,
+    'end of the year': 1,
 }
 
 dayOffsets = {
